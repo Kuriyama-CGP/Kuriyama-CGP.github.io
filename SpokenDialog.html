@@ -74,7 +74,7 @@ let output = ''; // 出力
 
 // 日付の返答を返す
 function resp_Date() {
-    let now = new Date(); // 現在時刻を格納するオブジェクト
+    let now = new Date({timeZone: 'Asia/Tokyo'}); // 現在時刻を格納するオブジェクト
     let now_y = now.getMonth(); // 月
     let now_d = now.getDay(); // 日
     const resp = " 今日は " + now_y + " 月 " + now_d + " 日です。";
@@ -83,7 +83,7 @@ function resp_Date() {
 
 // 時刻の返答を返す
 function resp_Time() {
-    let now = new Date(); // 現在時刻を格納するオブジェクト
+    let now = new Date({timeZone: 'Asia/Tokyo'}); // 現在時刻を格納するオブジェクト
     let now_h = now.getMonth(); // 時
     let now_m = now.getDay(); // 分
     const resp = " 現在の時刻は " + now_h + " 時 " + now_m + " 分です。";
