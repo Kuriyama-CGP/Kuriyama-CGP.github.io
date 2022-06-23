@@ -74,20 +74,22 @@ let output = ''; // 出力
 
 // 日付の返答を返す
 function resp_Date() {
-    let now = new Date(Date.now()+((new Date().getTimezoneOffset()+(9*60))*60*1000));
+    let now = new Date(); // 時刻格納オブジェクト
+    now.setTime(now.getTime() + 1000*60*60*9); // 日本時間に変換
     let now_y = now.getFullYear(); // 年
     let now_m = now.getMonth(); // 月
     let now_d = now.getDay(); // 日
-    const resp = " 今日は " + now_y + " 年 " + now_m + " 月 " + now_d + " 日です。";
+    let resp = " 今日は " + now_y + " 年 " + now_m + " 月 " + now_d + " 日です。";
     return resp;
 }
 
 // 時刻の返答を返す
 function resp_Time() {
-    let now = new Date(Date.now()+((new Date().getTimezoneOffset()+(9*60))*60*1000));
+    let now = new Date(); // 時刻格納オブジェクト
+    now.setTime(now.getTime() + 1000*60*60*9); // 日本時間に変換
     let now_h = now.getMonth(); // 時
     let now_m = now.getDay(); // 分
-    const resp = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
+    let resp = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
     return resp;
 }
 
