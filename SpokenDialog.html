@@ -34,6 +34,7 @@ var response = {
     "おやすみ": ["おやすみなさい。"],
     "よろしく": ["よろしくお願いします。"],
     "元気": ["はい、私は元気です。"],
+    "何日": [resp_Date()],
     "和歌山,天気": ["和歌山県の天気予報を表示します", "https://weather.yahoo.co.jp/weather/jp/30/"],
     "大阪,天気": ["大阪府の天気予報を表示します", "https://weather.yahoo.co.jp/weather/jp/27/"],
     "京都,天気": ["京都府の天気予報を表示します", "https://weather.yahoo.co.jp/weather/jp/26/"],
@@ -67,6 +68,23 @@ asr.interimResults = true; // 途中結果出力をオン
 asr.continuous = true; // 継続入力をオン
 
 let output = ''; // 出力
+
+// 日付の返答を返す
+function resp_Date() {
+    let now = new Date(); // 現在時刻を格納するオブジェクト
+    let now_y = now.getMonth(); // 月
+    let now_d = now.getDay(); // 日
+    const resp = " 今日は " + now_y + " 月 " + now_d + " 日です。";
+    return resp;
+}
+
+// 時刻の返答を返す
+function resp_Time() {
+    let now = new Date(); // 現在時刻を格納するオブジェクト
+    let now_h = now.getMonth(); // 時
+    let now_m = now.getDay(); // 分
+    const resp = " 現在の時刻は " + now_h + " 時 " + now_m + " 分です。";
+}
 
 // 認識結果が出力されたときのイベントハンドラ
 asr.onresult = function(event){
