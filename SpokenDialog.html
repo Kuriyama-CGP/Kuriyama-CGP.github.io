@@ -38,6 +38,7 @@ var response = {
     "何日": [resp_Date()],
     "何時": [resp_Time()],
     "何分": [resp_Time()],
+    "曜日": [resp_Day()],
     "和歌山,天気": ["和歌山県の天気予報を表示します", "https://weather.yahoo.co.jp/weather/jp/30/"],
     "大阪,天気": ["大阪府の天気予報を表示します", "https://weather.yahoo.co.jp/weather/jp/27/"],
     "京都,天気": ["京都府の天気予報を表示します", "https://weather.yahoo.co.jp/weather/jp/26/"],
@@ -90,6 +91,16 @@ function resp_Time() {
     let now_h = now.getHours(); // 時
     let now_m = now.getMinutes(); // 分
     let resp = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
+    return resp;
+}
+
+// 曜日の返答を返す
+function resp_Day() {
+    let days = ["日","月","火","水","木","金","土"];
+    let now = new Date(); // 時刻格納オブジェクト
+    now.setTime(now.getTime() + 1000*60*60*9); // 日本時間に変換
+    let now_d = now.getDay(); // 曜日
+    let resp = " 今日は " + days[now_d] + " 曜日です。";
     return resp;
 }
 
