@@ -45,7 +45,7 @@ var table = [{
     "京都,天気": ["京都府の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/26/"],
     "奈良,天気": ["奈良県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/29/"],
     "兵庫,天気": ["兵庫県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/28/"],
-    "じゃんけん": [mode(1, "じゃんけんモードに移行。じゃんけん…")]
+    "じゃんけん": [set_mode(1, "じゃんけんモードに移行。じゃんけん…")]
 }, {
     "グー": [],
     "チョキ": [],
@@ -112,7 +112,7 @@ function resp_Day()
 }
 
 // モード移行 (0:デフォルト, 1:じゃんけん)
-function mode_rsp(i, msg)
+function set_mode(i, msg)
 {
     response = table[i];
     return msg;
