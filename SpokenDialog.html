@@ -24,7 +24,7 @@
 
 <script>
 // 応答の定義（ハッシュ）    
-var table = [
+let table = [
     {
         "あなた,誰": "私は音声対話プログラムです。",
         "名前": "私の名前はまだありません。",
@@ -76,7 +76,7 @@ asr.lang = "ja-JP"; // 言語（日本語）
 asr.interimResults = true; // 途中結果出力をオン
 asr.continuous = true; // 継続入力をオン
 
-var response = table[0];
+let response = table[0];
 let output = ''; // 出力
 
 // 日付の返答を返す
