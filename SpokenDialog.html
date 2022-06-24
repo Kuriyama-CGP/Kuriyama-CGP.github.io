@@ -78,7 +78,7 @@ function resp_Date() {
     now.setTime(now.getTime() + 1000*60*60*9); // 日本時間に変換
     let now_y = now.getFullYear(); // 年
     let now_m = now.getMonth() + 1; // 月
-    let now_d = now.getDay(); // 日
+    let now_d = now.getDate(); // 日
     let resp = " 今日は " + now_y + " 年 " + now_m + " 月 " + now_d + " 日です。";
     return resp;
 }
