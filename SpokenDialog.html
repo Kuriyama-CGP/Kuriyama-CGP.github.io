@@ -23,8 +23,8 @@
 </style>
 
 <script>
-// 応答の定義（ハッシュ）    
-var response = {
+// 応答の定義0（デフォルト）    
+var table = [{
     "あなた,誰": ["私は音声対話プログラムです。"],
     "名前": ["私の名前はまだありません。"],
     "何歳": ["私はまだ生まれたばかりの0歳です。"],
@@ -44,8 +44,13 @@ var response = {
     "大阪,天気": ["大阪府の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/27/"],
     "京都,天気": ["京都府の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/26/"],
     "奈良,天気": ["奈良県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/29/"],
-    "兵庫,天気": ["兵庫県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/28/"]
-};
+    "兵庫,天気": ["兵庫県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/28/"],
+    "じゃんけん": [mode(1, "じゃんけんモードに移行。じゃんけん…")]
+}, {
+    "グー": [],
+    "チョキ": [],
+    "パー": []
+}];
 
 const startButton = document.querySelector('#startButton'); // 開始ボタン
 const stopButton = document.querySelector('#stopButton'); // 停止ボタン
@@ -72,10 +77,12 @@ asr.lang = "ja-JP"; // 言語（日本語）
 asr.interimResults = true; // 途中結果出力をオン
 asr.continuous = true; // 継続入力をオン
 
+var response = table[0];
 let output = ''; // 出力
 
 // 日付の返答を返す
-function resp_Date() {
+function resp_Date()
+{
     let now = new Date(); // 時刻格納オブジェクト
     let now_y = now.getFullYear(); // 年
     let now_m = now.getMonth() + 1; // 月
@@ -85,7 +92,8 @@ function resp_Date() {
 }
 
 // 時刻の返答を返す
-function resp_Time() {
+function resp_Time()
+{
     let now = new Date(); // 時刻格納オブジェクト
     let now_h = now.getHours(); // 時
     let now_m = now.getMinutes(); // 分
@@ -94,12 +102,46 @@ function resp_Time() {
 }
 
 // 曜日の返答を返す
-function resp_Day() {
+function resp_Day()
+{
     let days = ["日","月","火","水","木","金","土"];
     let now = new Date(); // 時刻格納オブジェクト
     let now_d = now.getDay(); // 曜日
     let resp = " 今日は" + days[now_d] + "曜日です。";
     return resp;
+}
+
+// モード移行 (0:デフォルト, 1:じゃんけん)
+function mode_rsp(i, msg)
+{
+    response = table[i];
+    return msg;
+}
+
+// じゃんけん (0:グー, 1:チョキ, 2:パー)
+function resp_rsp(hand0)
+{
+    let hand1 = Math.floor(Math.random() * 3);
+    let flag = (hand0 - hand1 + 3) % 3;
+    let handText = ["グー", "チョキ", "パー"];
+    let text;
+    let ans;
+    switch (flag) {
+        case 0:
+            text = "あいこなのでもう一回。じゃんけん…";
+            response = table[1];
+            break;
+        case 1:
+            text = "あなたの勝ち。中々やりますね。";
+            response = table[0];
+            break;
+        case 2:
+            text = "私の勝ち。まだまだですね。";
+            response = table[0];
+            break;
+    }
+    ans = "私は" + handText[hand1] + "を出しました。" + text;
+    return ans;
 }
 
 // 認識結果が出力されたときのイベントハンドラ
@@ -109,9 +151,9 @@ asr.onresult = function(event){
     let output_not_final = '';
     if (event.results[event.resultIndex].isFinal) { // 結果が確定（Final）のとき
 	    asr.abort(); // 音声認識を停止
-	    
+
         let answer;
-        
+
         let keys = Object.keys(response);
         keys.forEach(function(key) {
             let flag = true;
@@ -136,8 +178,9 @@ asr.onresult = function(event){
 
         if (typeof answer == 'undefined') {
 	        answer = "すみません、よくわかりません。";
+            response = table[0];
     	}
-	
+
         output += transcript + ' => ' + answer + '<br>';
 
 	    tts.text = answer;
