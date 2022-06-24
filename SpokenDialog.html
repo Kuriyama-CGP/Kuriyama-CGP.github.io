@@ -25,31 +25,26 @@
 <script>
 // 応答の定義（ハッシュ）    
 var table = [{
-    "あなた,誰": ["私は音声対話プログラムです。"],
-    "名前": ["私の名前はまだありません。"],
-    "何歳": ["私はまだ生まれたばかりの0歳です。"],
-    "こんにちは": ["こんにちは。"],
-    "こんばんは": ["こんばんは。"],
-    "おはよう": ["おはようございます。"],
-    "おやすみ": ["おやすみなさい。"],
-    "よろしく": ["よろしくお願いします。"],
-    "ありがとう": ["どういたしまして。"],
-    "元気": ["はい、私は元気です。"],
-    "何月": [resp_Date()],
-    "何日": [resp_Date()],
-    "何時": [resp_Time()],
-    "何分": [resp_Time()],
-    "曜日": [resp_Day()],
-    "和歌山,天気": ["和歌山県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/30/"],
-    "大阪,天気": ["大阪府の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/27/"],
-    "京都,天気": ["京都府の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/26/"],
-    "奈良,天気": ["奈良県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/29/"],
-    "兵庫,天気": ["兵庫県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/28/"],
-    "じゃんけん": [set_mode(1, "じゃんけんモードに移行。じゃんけん…")]
+    "あなた,誰": "私は音声対話プログラムです。",
+    "名前": "私の名前はまだありません。",
+    "何歳": "私はまだ生まれたばかりの0歳です。",
+    "こんにちは": "こんにちは。",
+    "こんばんは": "こんばんは。",
+    "おはよう": "おはようございます。",
+    "おやすみ": "おやすみなさい。",
+    "よろしく": "よろしくお願いします。",
+    "ありがとう": "どういたしまして。",
+    "元気": "はい、私は元気です。",
+    "何月": resp_Date(),
+    "何日": resp_Date(),
+    "何時": resp_Time(),
+    "何分": resp_Time(),
+    "曜日": resp_Day(),
+    "じゃんけん": set_mode(1, "じゃんけんモードに移行。じゃんけん…")
 }, {
-    "グー": [rock_papers_scissors(0)],
-    "チョキ": [rock_papers_scissors(1)],
-    "パー": [rock_papers_scissors(2)]
+    "グー": rock_papers_scissors(0),
+    "チョキ": rock_papers_scissors(1),
+    "パー": rock_papers_scissors(2)
 }];
 
 const startButton = document.querySelector('#startButton'); // 開始ボタン
@@ -168,12 +163,8 @@ asr.onresult = function(event){
             });
 
             if (flag) {
-		        answer = response[key][0];
+		        answer = response[key];
                 console.log(key + " : " + answer);
-
-                if (typeof response[key][1] != 'undefined') {
-                    window.open(response[key][1], '_blank');
-                }
             }
         });
 
