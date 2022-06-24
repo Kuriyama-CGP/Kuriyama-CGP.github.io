@@ -47,9 +47,9 @@ var table = [{
     "兵庫,天気": ["兵庫県の天気予報を表示します。", "https://weather.yahoo.co.jp/weather/jp/28/"],
     "じゃんけん": [set_mode(1, "じゃんけんモードに移行。じゃんけん…")]
 }, {
-    "グー": [],
-    "チョキ": [],
-    "パー": []
+    "グー": [rock_papers_scissors(0)],
+    "チョキ": [rock_papers_scissors(1)],
+    "パー": [rock_papers_scissors(2)]
 }];
 
 const startButton = document.querySelector('#startButton'); // 開始ボタン
@@ -119,7 +119,7 @@ function set_mode(i, msg)
 }
 
 // じゃんけん (0:グー, 1:チョキ, 2:パー)
-function resp_rsp(hand0)
+function rock_papers_scissors(hand0)
 {
     let hand1 = Math.floor(Math.random() * 3);
     let flag = (hand0 - hand1 + 3) % 3;
