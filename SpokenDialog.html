@@ -24,7 +24,7 @@
 
 <script>
 // 応答の定義（ハッシュ）    
-let table = [
+let response = [
     {
         "あなた,誰": "私は音声対話プログラムです。",
         "名前": "私の名前はまだありません。",
@@ -76,7 +76,7 @@ asr.lang = "ja-JP"; // 言語（日本語）
 asr.interimResults = true; // 途中結果出力をオン
 asr.continuous = true; // 継続入力をオン
 
-let response = table[0];
+let resp_index = 0;
 let output = ''; // 出力
 
 // 日付の返答を返す
@@ -113,7 +113,7 @@ function resp_Day()
 // モード移行 (0:デフォルト, 1:じゃんけん)
 function set_mode(i, msg)
 {
-    response = table[i];
+    resp_index = i;
     return msg;
 }
 
@@ -128,15 +128,15 @@ function rock_papers_scissors(hand0)
     switch (flag) {
         case 0:
             text = "あいこなのでもう一回。じゃんけん…";
-            response = table[1];
+            resp_index = 1;
             break;
         case 1:
             text = "あなたの勝ち。中々やりますね。";
-            response = table[0];
+            resp_index = 0;
             break;
         case 2:
             text = "私の勝ち。まだまだですね。";
-            response = table[0];
+            resp_index = 0;
             break;
     }
     ans = "私は" + handText[hand1] + "を出しました。" + text;
@@ -153,7 +153,7 @@ asr.onresult = function(event){
 
         let answer;
 
-        let keys = Object.keys(response);
+        let keys = Object.keys(response[resp_index]);
         keys.forEach(function(key) {
             let flag = true;
             console.log(transcript);
@@ -166,14 +166,14 @@ asr.onresult = function(event){
             });
 
             if (flag) {
-		        answer = response[key];
+		        answer = response[resp_index][key];
                 console.log(key + " : " + answer);
             }
         });
 
         if (typeof answer == 'undefined') {
 	        answer = "すみません、よくわかりません。";
-            response = table[0];
+            resp_index = 0;
     	}
 
         output += transcript + ' => ' + answer + '<br>';
