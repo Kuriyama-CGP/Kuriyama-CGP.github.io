@@ -23,7 +23,7 @@
 </style>
 
 <script>
-let resp_index = 0;
+let resp_index;
 
 // 応答の定義（ハッシュ）    
 let response = [
@@ -79,6 +79,8 @@ asr.interimResults = true; // 途中結果出力をオン
 asr.continuous = true; // 継続入力をオン
 
 let output = ''; // 出力
+
+resp_index = 0;
 
 // 日付の返答を返す
 function resp_Date()
