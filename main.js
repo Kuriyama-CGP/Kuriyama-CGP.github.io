@@ -58,12 +58,12 @@ function init()
             "何時": ["", "resp_Time()"],
             "何分": ["", "resp_Time()"],
             "曜日": ["", "resp_Day()"],
-            "じゃんけん": set_mode(1)
+            "じゃんけん": ["じゃんけんモードに移行。じゃんけん…", set_mode(1)]
         },
         {
-            "グー": rock_papers_scissors(0),
-            "チョキ": rock_papers_scissors(1),
-            "パー": rock_papers_scissors(2)
+            "グー": ["", rock_papers_scissors(0)],
+            "チョキ": ["", rock_papers_scissors(1)],
+            "パー": ["", rock_papers_scissors(2)]
         }
     ];
 
