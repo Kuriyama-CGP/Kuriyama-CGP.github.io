@@ -3,10 +3,12 @@
 const startButton = document.querySelector('#startButton'); // 開始ボタン
 const stopButton = document.querySelector('#stopButton'); // 停止ボタン
 const resultOutput = document.querySelector('#resultOutput'); // 結果出力エリア
+const isActive = document.querySelector('#isActive'); // 音声認識のオンオフ
 
 if (!'SpeechSynthesisUtterance' in window) {
     alert("あなたのブラウザはSpeech Synthesis APIに未対応です。");
 }
+
 const tts = new SpeechSynthesisUtterance(); // TTSインスタンスを生成
 //tts.text = textForm.value; // テキストを設定
 tts.lang = "ja-JP"; // 言語(日本語)、英語の場合はen-US
@@ -41,7 +43,7 @@ window.onload = function()
 // 読み込み時に一度だけ実行
 function init()
 {
-    doFunction = false; // 関数を実行するかどうか（代入などで値が変わるのを防ぐため）
+    doFunction = false; // 関数を実行するかどうか（代入時などに値が変わるのを防ぐため）
 
     response = [
         {
