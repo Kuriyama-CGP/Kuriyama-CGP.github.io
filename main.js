@@ -174,7 +174,7 @@ asr.onresult = function(event){
             if (flag) {
 		        answer = response[resp_index][key][0];
 
-                if (response[resp_index][key][1] != 'undefined') {
+                if (typeof response[resp_index][key][1] != 'undefined') {
                     answer += useFunc(response[resp_index][key][1]);
                 }
 
