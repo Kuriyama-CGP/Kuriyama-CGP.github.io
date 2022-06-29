@@ -28,7 +28,6 @@ asr.continuous = true; // 継続入力をオン
 // 変数
 let response;
 let resp_index;
-let now;
 let output;
 
 // サイトが読み込まれたときにここが実行される
@@ -68,7 +67,6 @@ function init()
     ];
 
     resp_index = 0;
-    now = new Date();
     output = ''; // 出力
 }
 
@@ -81,12 +79,13 @@ function main()
 // 毎フレーム実行
 function update()
 {
-    now.setTime(now.getTime() + 16);
+    
 }
 
 // 日付の返答を返す
 function resp_Date()
 {
+    const now = new Date(); // 日付格納オブジェクト
     const now_y = now.getFullYear(); // 年
     const now_m = now.getMonth() + 1; // 月
     const now_d = now.getDate(); // 日
@@ -97,6 +96,7 @@ function resp_Date()
 // 時刻の返答を返す
 function resp_Time()
 {
+    const now = new Date(); // 日付格納オブジェクト
     const now_h = now.getHours(); // 時
     const now_m = now.getMinutes(); // 分
     const msg = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
@@ -106,6 +106,7 @@ function resp_Time()
 // 曜日の返答を返す
 function resp_Day()
 {
+    const now = new Date(); // 日付格納オブジェクト
     const days = ["日","月","火","水","木","金","土"];
     const now_d = now.getDay(); // 曜日
     const msg = " 今日は" + days[now_d] + "曜日です。";
