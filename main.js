@@ -12,6 +12,7 @@ let response;
 let resp_index;
 let now;
 let output;
+let doFunction;
 
 // サイトが読み込まれたときにここが実行される
 window.onload = function()
@@ -23,6 +24,8 @@ window.onload = function()
 // 読み込み時に一度だけ実行
 function init()
 {
+    doFunction = false; // 関数を実行するかどうか（代入などで値が変わるのを防ぐため）
+
     response = [
         {
             "あなた,誰": "私は音声対話プログラムです。",
@@ -89,61 +92,72 @@ function update()
 // 日付の返答を返す
 function resp_Date()
 {
-    let now_y = now.getFullYear(); // 年
-    let now_m = now.getMonth() + 1; // 月
-    let now_d = now.getDate(); // 日
-    let msg = " 今日は " + now_y + " 年 " + now_m + " 月 " + now_d + " 日です。";
+    let msg = "";
+    if (doFunction) {
+        const now_y = now.getFullYear(); // 年
+        const now_m = now.getMonth() + 1; // 月
+        const now_d = now.getDate(); // 日
+        msg = " 今日は " + now_y + " 年 " + now_m + " 月 " + now_d + " 日です。";
+    }
     return msg;
 }
 
 // 時刻の返答を返す
 function resp_Time()
 {
-    let now_h = now.getHours(); // 時
-    let now_m = now.getMinutes(); // 分
-    let msg = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
+    let msg = "";
+    if (doFunction) {
+        const now_h = now.getHours(); // 時
+        const now_m = now.getMinutes(); // 分
+        msg = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
+    }
     return msg;
 }
 
 // 曜日の返答を返す
 function resp_Day()
 {
-    let days = ["日","月","火","水","木","金","土"];
-    let now_d = now.getDay(); // 曜日
-    let msg = " 今日は" + days[now_d] + "曜日です。";
+    let msg = "";
+    if (doFunction) {
+        let days = ["日","月","火","水","木","金","土"];
+        let now_d = now.getDay(); // 曜日
+        msg = " 今日は" + days[now_d] + "曜日です。";
+    }
     return msg;
 }
 
 // モード移行 (0:デフォルト, 1:じゃんけん)
 function set_mode(i, msg)
 {
-    resp_index = i;
+    if (doFunction) resp_index = i;
     return msg;
 }
 
 // じゃんけん (0:グー, 1:チョキ, 2:パー)
 function rock_papers_scissors(hand0)
 {
-    let hand1 = Math.floor(Math.random() * 3);
-    let flag = (hand0 - hand1 + 3) % 3;
-    let handText = ["グー", "チョキ", "パー"];
-    let text;
-    let msg;
-    switch (flag) {
-        case 0:
-            text = "あいこなのでもう一回。じゃんけん…";
-            resp_index = 1;
-            break;
-        case 1:
-            text = "あなたの勝ち。中々やりますね。";
-            resp_index = 0;
-            break;
-        case 2:
-            text = "私の勝ち。まだまだですね。";
-            resp_index = 0;
-            break;
+    let msg = "";
+    if (doFunction) {
+        const hand1 = Math.floor(Math.random() * 3);
+        const flag = (hand0 - hand1 + 3) % 3;
+        const handText = ["グー", "チョキ", "パー"];
+        let text;
+        switch (flag) {
+            case 0:
+                text = "あいこなのでもう一回。じゃんけん…";
+                resp_index = 1;
+                break;
+            case 1:
+                text = "あなたの勝ち。中々やりますね。";
+                resp_index = 0;
+                break;
+            case 2:
+                text = "私の勝ち。まだまだですね。";
+                resp_index = 0;
+                break;
+        }
+        msg = "私は" + handText[hand1] + "を出しました。" + text;
     }
-    msg = "私は" + handText[hand1] + "を出しました。" + text;
     return msg;
 }
 
@@ -156,9 +170,8 @@ asr.onresult = function(event){
 	    asr.abort(); // 音声認識を停止
 
         let answer;
-        let resp = response[resp_index];
-        let keys = Object.keys(resp);
 
+        let keys = Object.keys(response[resp_index]);
         keys.forEach(function(key) {
             let flag = true;
             console.log(transcript);
@@ -171,8 +184,10 @@ asr.onresult = function(event){
             });
 
             if (flag) {
-		        answer = resp[key];
+                doFunction = true;
+		        answer = response[resp_index][key];
                 console.log(key + " : " + answer);
+                doFunction = false;
             }
         });
 
