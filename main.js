@@ -144,6 +144,11 @@ function rock_papers_scissors(hand0)
     return msg;
 }
 
+// 文字列を関数として実行
+function useFunc(f) {
+    return Function('"use strict";return('+ f +')')();
+}
+
 // 認識結果が出力されたときのイベントハンドラ
 asr.onresult = function(event){
     let transcript = event.results[event.resultIndex][0].transcript; // 結果文字列
@@ -170,7 +175,7 @@ asr.onresult = function(event){
 		        answer = response[resp_index][key][0];
 
                 if (response[resp_index][key][1] != 'undefined') {
-                    answer += Function('"use strict";return('+ response[resp_index][key][1] +')');
+                    answer += useFunc(response[resp_index][key][1]);
                 }
 
                 console.log(key + " : " + answer);
