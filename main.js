@@ -154,7 +154,7 @@ asr.onresult = function(event){
 
         let answer;
 
-        let keys = Object.keys(response[resp_index][0]);
+        let keys = Object.keys(response[resp_index]);
         keys.forEach(function(key) {
             let flag = true;
             console.log(transcript);
