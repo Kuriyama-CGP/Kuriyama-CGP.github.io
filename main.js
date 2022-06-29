@@ -132,11 +132,11 @@ function rock_papers_scissors(hand0)
                 resp_index = 1;
                 break;
             case 1:
-                text = "あなたの勝ち。中々やりますね。";
+                text = "私の勝ち。まだまだですね。";
                 resp_index = 0;
                 break;
             case 2:
-                text = "私の勝ち。まだまだですね。";
+                text = "あなたの勝ち。中々やりますね。";
                 resp_index = 0;
                 break;
         }
