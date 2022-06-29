@@ -169,7 +169,7 @@ asr.onresult = function(event){
             if (flag) {
 		        answer = response[resp_index][key][0];
 
-                if (response[resp_index][key][1] != null) {
+                if (response[resp_index][key][1] != 'undefined') {
                     answer += Function('"use strict";return('+ response[resp_index][key][1] +')');
                 }
 
