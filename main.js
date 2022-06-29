@@ -156,8 +156,9 @@ asr.onresult = function(event){
 	    asr.abort(); // 音声認識を停止
 
         let answer;
+        let resp = response[resp_index];
+        let keys = Object.keys(resp);
 
-        let keys = Object.keys(response[resp_index]);
         keys.forEach(function(key) {
             let flag = true;
             console.log(transcript);
@@ -170,7 +171,7 @@ asr.onresult = function(event){
             });
 
             if (flag) {
-		        answer = response[resp_index][key];
+		        answer = resp[key];
                 console.log(key + " : " + answer);
             }
         });
