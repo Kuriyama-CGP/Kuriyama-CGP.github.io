@@ -5,6 +5,7 @@ const stopButton = document.querySelector('#stopButton'); // 停止ボタン
 const resultOutput = document.querySelector('#resultOutput'); // 結果出力エリア
 const isActive = document.querySelector('#isActive'); // 音声認識のオンオフ表示
 const tts = new SpeechSynthesisUtterance(); // TTSインスタンスを生成
+SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 const asr = new SpeechRecognition(); // ASRインスタンスを生成
 
 // 変数
@@ -57,7 +58,7 @@ function init()
     if (!'SpeechSynthesisUtterance' in window) {
         alert("あなたのブラウザはSpeech Synthesis APIに未対応です。");
     }
-    SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+
     if (!'SpeechRecognition' in window) {
         alert("あなたのブラウザはSpeech Recognition APIに未対応です。");
     }
