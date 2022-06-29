@@ -3,10 +3,26 @@
 const startButton = document.querySelector('#startButton'); // 開始ボタン
 const stopButton = document.querySelector('#stopButton'); // 停止ボタン
 const resultOutput = document.querySelector('#resultOutput'); // 結果出力エリア
-const isActive = document.querySelector('#isActive'); // 音声認識のオンオフ表示
+
+if (!'SpeechSynthesisUtterance' in window) {
+    alert("あなたのブラウザはSpeech Synthesis APIに未対応です。");
+}
 const tts = new SpeechSynthesisUtterance(); // TTSインスタンスを生成
+//tts.text = textForm.value; // テキストを設定
+tts.lang = "ja-JP"; // 言語(日本語)、英語の場合はen-US
+tts.rate = 1.0; // 速度
+tts.pitch = 1.0; // 声の高さ
+tts.volume = 1.0; // 音量
+
 SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+if (!'SpeechRecognition' in window) {
+    alert("あなたのブラウザはSpeech Recognition APIに未対応です。");
+}
+
 const asr = new SpeechRecognition(); // ASRインスタンスを生成
+asr.lang = "ja-JP"; // 言語（日本語）
+asr.interimResults = true; // 途中結果出力をオン
+asr.continuous = true; // 継続入力をオン
 
 // 変数
 let response;
@@ -54,26 +70,6 @@ function init()
     ];
 
     resp_index = 0;
-
-    if (!'SpeechSynthesisUtterance' in window) {
-        alert("あなたのブラウザはSpeech Synthesis APIに未対応です。");
-    }
-
-    if (!'SpeechRecognition' in window) {
-        alert("あなたのブラウザはSpeech Recognition APIに未対応です。");
-    }
-
-    //TTSインスタンスの設定
-    tts.lang = "ja-JP"; // 言語(日本語)、英語の場合はen-US
-    tts.rate = 1.0; // 速度
-    tts.pitch = 1.0; // 声の高さ
-    tts.volume = 1.0; // 音量
-
-    // ASRインスタンスの設定
-    asr.lang = "ja-JP"; // 言語（日本語）
-    asr.interimResults = true; // 途中結果出力をオン
-    asr.continuous = true; // 継続入力をオン
-
     now = new Date();
     output = ''; // 出力
 }
