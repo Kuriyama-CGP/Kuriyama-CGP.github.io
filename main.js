@@ -30,7 +30,6 @@ let response;
 let resp_index;
 let now;
 let output;
-let doFunction;
 
 // サイトが読み込まれたときにここが実行される
 window.onload = function()
@@ -42,26 +41,24 @@ window.onload = function()
 // 読み込み時に一度だけ実行
 function init()
 {
-    doFunction = false; // 関数を実行するかどうか（代入時などに値が変わるのを防ぐため）
-
     response = [
         {
-            "あなた,誰": "私は音声対話プログラムです。",
-            "名前": "私の名前はまだありません。",
-            "何歳": "私はまだ生まれたばかりの0歳です。",
-            "こんにちは": "こんにちは。",
-            "こんばんは": "こんばんは。",
-            "おはよう": "おはようございます。",
-            "おやすみ": "おやすみなさい。",
-            "よろしく": "よろしくお願いします。",
-            "ありがとう": "どういたしまして。",
-            "元気": "はい、私は元気です。",
-            "何月": resp_Date(),
-            "何日": resp_Date(),
-            "何時": resp_Time(),
-            "何分": resp_Time(),
-            "曜日": resp_Day(),
-            "じゃんけん": set_mode(1, "じゃんけんモードに移行。じゃんけん…")
+            "あなた,誰": ["私は音声対話プログラムです。"],
+            "名前": ["私の名前はまだありません。"],
+            "何歳": ["私はまだ生まれたばかりの0歳です。"],
+            "こんにちは": ["こんにちは。"],
+            "こんばんは": ["こんばんは。"],
+            "おはよう": ["おはようございます。"],
+            "おやすみ": ["おやすみなさい。"],
+            "よろしく": ["よろしくお願いします。"],
+            "ありがとう": ["どういたしまして。"],
+            "元気": ["はい、私は元気です。"],
+            "何月": ["", "resp_Date()"],
+            "何日": ["", "resp_Date()"],
+            "何時": ["", "resp_Time()"],
+            "何分": ["", "resp_Time()"],
+            "曜日": ["", "resp_Day()"],
+            "じゃんけん": set_mode(1)
         },
         {
             "グー": rock_papers_scissors(0),
@@ -90,52 +87,41 @@ function update()
 // 日付の返答を返す
 function resp_Date()
 {
-    let msg = "";
-    if (doFunction) {
-        const now_y = now.getFullYear(); // 年
-        const now_m = now.getMonth() + 1; // 月
-        const now_d = now.getDate(); // 日
-        msg = " 今日は " + now_y + " 年 " + now_m + " 月 " + now_d + " 日です。";
-    }
+    const now_y = now.getFullYear(); // 年
+    const now_m = now.getMonth() + 1; // 月
+    const now_d = now.getDate(); // 日
+    const msg = " 今日は " + now_y + " 年 " + now_m + " 月 " + now_d + " 日です。";
     return msg;
 }
 
 // 時刻の返答を返す
 function resp_Time()
 {
-    let msg = "";
-    if (doFunction) {
-        const now_h = now.getHours(); // 時
-        const now_m = now.getMinutes(); // 分
-        msg = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
-    }
+    const now_h = now.getHours(); // 時
+    const now_m = now.getMinutes(); // 分
+    const msg = " 日本の現在時刻は " + now_h + " 時 " + now_m + " 分です。";
     return msg;
 }
 
 // 曜日の返答を返す
 function resp_Day()
 {
-    let msg = "";
-    if (doFunction) {
-        let days = ["日","月","火","水","木","金","土"];
-        let now_d = now.getDay(); // 曜日
-        msg = " 今日は" + days[now_d] + "曜日です。";
-    }
+    const days = ["日","月","火","水","木","金","土"];
+    const now_d = now.getDay(); // 曜日
+    const msg = " 今日は" + days[now_d] + "曜日です。";
     return msg;
 }
 
 // モード移行 (0:デフォルト, 1:じゃんけん)
-function set_mode(i, msg)
+function set_mode(i)
 {
-    if (doFunction) resp_index = i;
-    return msg;
+    resp_index = i;
+    return "";
 }
 
 // じゃんけん (0:グー, 1:チョキ, 2:パー)
 function rock_papers_scissors(hand0)
 {
-    let msg = "";
-    if (doFunction) {
         const hand1 = Math.floor(Math.random() * 3);
         const flag = (hand0 - hand1 + 3) % 3;
         const handText = ["グー", "チョキ", "パー"];
@@ -154,8 +140,7 @@ function rock_papers_scissors(hand0)
                 resp_index = 0;
                 break;
         }
-        msg = "私は" + handText[hand1] + "を出しました。" + text;
-    }
+        const msg = "私は" + handText[hand1] + "を出しました。" + text;
     return msg;
 }
 
@@ -169,7 +154,7 @@ asr.onresult = function(event){
 
         let answer;
 
-        let keys = Object.keys(response[resp_index]);
+        let keys = Object.keys(response[resp_index][0]);
         keys.forEach(function(key) {
             let flag = true;
             console.log(transcript);
@@ -182,10 +167,13 @@ asr.onresult = function(event){
             });
 
             if (flag) {
-                doFunction = true;
-		        answer = response[resp_index][key];
+		        answer = response[resp_index][key][0];
+
+                if (response[resp_index][key][1] != 'undefined') {
+                    answer += Function('return('+ [resp_index][key][1] +')');
+                }
+
                 console.log(key + " : " + answer);
-                doFunction = false;
             }
         });
 
