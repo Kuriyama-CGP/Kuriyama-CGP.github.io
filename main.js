@@ -61,6 +61,7 @@ function init()
         },
         {
             "グー": ["", "rock_papers_scissors(0)"],
+            "goo": ["", "rock_papers_scissors(0)"],
             "チョキ": ["", "rock_papers_scissors(1)"],
             "パー": ["", "rock_papers_scissors(2)"]
         }
