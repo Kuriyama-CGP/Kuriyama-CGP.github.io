@@ -5,6 +5,7 @@ const APIID = "dj00aiZpPTFvMWZrRmo1ZGtjeCZzPWNvbnN1bWVyc2VjcmV0Jng9YjA-"; // あ
 const startButton = document.querySelector('#startButton'); // 開始ボタン
 const stopButton = document.querySelector('#stopButton'); // 停止ボタン
 const resultOutput = document.querySelector('#resultOutput'); // 結果出力エリア
+const isActive = document.querySelector('#isActive'); // 音声認識のオンオフ
 
 if (!'SpeechSynthesisUtterance' in window) {
     alert("あなたのブラウザはSpeech Synthesis APIに未対応です。");
