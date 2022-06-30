@@ -87,10 +87,12 @@ asr.onresult = function(event) {
 // 開始ボタンのイベントハンドラ
 startButton.addEventListener('click', function() {
     asr.start();
+    isActive.innerHTML = '<span style="color:#007fff">音声認識：オン</span>';
 })
 
 // 停止ボタンのイベントハンドラ
 stopButton.addEventListener('click', function() {
     asr.abort();
     asr.stop();
+    isActive.innerHTML = '<span style="color:#000000">音声認識：オフ</span>';
 })
