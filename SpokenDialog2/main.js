@@ -1,5 +1,6 @@
+
 const URL = "https://jlp.yahooapis.jp/NLUService/V1/analyze?appid="; // APIのリクエストURL
-const APIID = "hogehogehogehogehogehogehogehogehogehogehogehogehogehoge"; // あなたのアプリケーションID
+const APIID = "dj00aiZpPTFvMWZrRmo1ZGtjeCZzPWNvbnN1bWVyc2VjcmV0Jng9YjA-"; // あなたのアプリケーションID
 
 const startButton = document.querySelector('#startButton'); // 開始ボタン
 const stopButton = document.querySelector('#stopButton'); // 停止ボタン
@@ -28,7 +29,7 @@ asr.continuous = true; // 継続入力をオン
 let output = ''; // 出力
 
 // 認識結果が出力されたときのイベントハンドラ
-asr.onresult = function(event){
+asr.onresult = function(event) {
     let transcript = event.results[event.resultIndex][0].transcript; // 結果文字列
 
     let output_not_final = '';
@@ -51,7 +52,7 @@ asr.onresult = function(event){
 				
 				let res = this.response; // 結果はJSON形式
 
-				Object.keys(res.result).forEach(function (key) {
+				Object.keys(res.result).forEach(function(key) {
 					console.log(key + ": " + res.result[key])
 				});
 			
@@ -68,7 +69,7 @@ asr.onresult = function(event){
 					output += transcript + ' => ' + answer + '<br>';
 					resultOutput.innerHTML = output;
 	    			speechSynthesis.speak(tts); // 再生
-				}else{
+				} else {
 					asr.start();  // 音声認識を再開
 				}
 			}
