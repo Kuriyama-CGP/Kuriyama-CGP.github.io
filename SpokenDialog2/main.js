@@ -57,22 +57,35 @@ asr.onresult = function(event) {
 					console.log(key + ": " + res.result[key])
 				});
 			
-				// method が SAY のときのみ
-				if(res.result.method == "SAY"){
-					var answer = res.result.param_text_tts || res.result.param_text;
-					tts.text = answer;
+				// method ごとに実行する内容
+				switch (res.result.method) {
+                    case "SAY":
+                        var answer = res.result.param_text_tts || res.result.param_text;
+                        tts.text = answer;
 
-	    			// 再生が終了（end）ときのイベントハンドラ（終了したときに実行される）
-	    			tts.onend = function(event){
-	        			asr.start(); // 音声認識を再開
-	    			}
-	    	
-					output += transcript + ' => ' + answer + '<br>';
-					resultOutput.innerHTML = output;
-	    			speechSynthesis.speak(tts); // 再生
-				} else {
-					asr.start();  // 音声認識を再開
-				}
+                        // 再生が終了（end）ときのイベントハンドラ（終了したときに実行される）
+                        tts.onend = function(event){
+                            asr.start(); // 音声認識を再開
+                        }
+                
+                        output += transcript + ' => ' + answer + '<br>';
+                        resultOutput.innerHTML = output;
+                        speechSynthesis.speak(tts); // 再生
+                        break;
+                    case "CLOCK":
+                        switch (res.result.param_method_subcat) {
+                            case "TIME":
+                                break;
+                            case "DAY_OF_MONTH":
+                                break;
+                            case "DAY_OF_WEEK":
+                                break;
+                        }
+                        break;
+                    default:
+                        asr.start();  // 音声認識を再開
+                        break;
+                }
 			}
 		}
 		// HTTPリクエストの実行
