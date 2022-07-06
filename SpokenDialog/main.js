@@ -68,7 +68,7 @@ function init()
             "パー": ["", "rock_papers_scissors(2)"]
         },
         {
-            "[0-9]+" :["", "dice(key)"]
+            "[0-9]+" :["", "dice(word)"]
         }
     ];
 
