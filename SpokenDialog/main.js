@@ -164,7 +164,7 @@ function dice(_key)
     else if (num == max) {
         text = "おめでとうございます。以上です。";
     }
-    else if (num < (max / 4)) {
+    else if (num < (max / 3)) {
         text = "小さいほうが良いこともありますよ。";
     }
     else if (num < (max * 3 / 4)) {
