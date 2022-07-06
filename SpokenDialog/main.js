@@ -68,7 +68,7 @@ function init()
             "パー": ["", "rock_papers_scissors(2)"]
         },
         {
-            "[0-9]+" :["", "dice(word)"]
+            "[0-9]+" :["", "dice(key)"]
         }
     ];
 
@@ -164,7 +164,7 @@ function dice(_key)
     else if (num == max) {
         text = "おめでとうございます。以上です。";
     }
-    else if (num < (max / 3)) {
+    else if (num < (max / 4)) {
         text = "小さいほうが良いこともありますよ。";
     }
     else if (num < (max * 3 / 4)) {
@@ -179,7 +179,7 @@ function dice(_key)
 }
 
 // 文字列を関数として実行
-function useFunc(f) {
+function useFunc(f, key) {
     return Function('"use strict";return('+ f +')')();
 }
 
@@ -209,7 +209,7 @@ asr.onresult = function(event){
 		        answer = response[resp_index][key][0];
 
                 if (typeof response[resp_index][key][1] != 'undefined') {
-                    answer += useFunc(response[resp_index][key][1]);
+                    answer += useFunc(response[resp_index][key][1], key);
                 }
 
                 console.log(key + " : " + answer);
