@@ -57,7 +57,8 @@ function init()
             "何時": ["", "resp_Time()"],
             "何分": ["", "resp_Time()"],
             "曜日": ["", "resp_Day()"],
-            "じゃんけん": ["じゃんけんモードに移行。じゃんけん…", "set_mode(1)"]
+            "じゃんけん": ["じゃんけんモードに移行。じゃんけん…", "set_mode(1)"],
+            "ダイス": ["ダイスモードに移行。ダイスの面の数を指定してください。", "set_mode(2)"]
         },
         {
             "Goo": ["", "rock_papers_scissors(0)"],
@@ -65,6 +66,9 @@ function init()
             "グー": ["", "rock_papers_scissors(0)"],
             "チョキ": ["", "rock_papers_scissors(1)"],
             "パー": ["", "rock_papers_scissors(2)"]
+        },
+        {
+            "\d+":["", "dice(key)"]
         }
     ];
 
@@ -147,6 +151,33 @@ function rock_papers_scissors(hand0)
     return msg;
 }
 
+function dice(_key)
+{
+    const max = parseInt(_key);
+    if (isNaN(max)) return "";
+    const num = Math.floor(Math.random() * max + 1);
+
+    let text;
+    if (num == 1) {
+        text = "逆に考えてください。今日のあなたはとても幸運です。";
+    }
+    if (num == max) {
+        text = "おめでとうございます。以上です。";
+    }
+    else if (num < (max / 4)) {
+        text = "小さいほうが良いこともありますよ。";
+    }
+    else if (num < (max * 3 / 4)) {
+        text = "普通ですね。あなたの人生みたいなものです。";
+    }
+    else {
+        text = "大は小を兼ねない場合もあることをお忘れなく。";
+    }
+
+    const msg = num + " が出ました。" + text; 
+    return msg;
+}
+
 // 文字列を関数として実行
 function useFunc(f) {
     return Function('"use strict";return('+ f +')')();
@@ -194,7 +225,7 @@ asr.onresult = function(event){
 
 	    tts.text = answer;
 	    // 再生が終了（end）ときのイベントハンドラ（終了したときに実行される）
-	    tts.onend = function(event){
+	    tts.onend = function(_event){
 	        asr.start(); // 音声認識を再開
 	    }
 
