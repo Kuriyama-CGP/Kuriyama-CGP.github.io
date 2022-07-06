@@ -179,7 +179,8 @@ function dice(_key)
 }
 
 // 文字列を関数として実行
-function useFunc(f, key) {
+function useFunc(f, _key) {
+    const key = _key;
     return Function('"use strict";return('+ f +')')();
 }
 
