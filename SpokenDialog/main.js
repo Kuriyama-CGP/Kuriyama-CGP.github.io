@@ -68,7 +68,7 @@ function init()
             "パー": ["", "rock_papers_scissors(2)"]
         },
         {
-            "\d+":["", "dice(key)"]
+            "\d+" :["", "dice(key)"]
         }
     ];
 
@@ -161,7 +161,7 @@ function dice(_key)
     if (num == 1) {
         text = "逆に考えてください。今日のあなたはとても幸運です。";
     }
-    if (num == max) {
+    else if (num == max) {
         text = "おめでとうございます。以上です。";
     }
     else if (num < (max / 4)) {
