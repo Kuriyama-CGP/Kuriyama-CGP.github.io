@@ -155,7 +155,7 @@ function rock_papers_scissors(hand0)
         "私の勝ち。まだまだですね。",
         "あなたの勝ち。中々やりますね。"
     ];
-    if (flag != 0) resp_index = 0;
+    if (flag != 0) set_mode(0);
     const msg = "私は" + handText[hand1] + "を出しました。" + text[flag];
     return msg;
 }
@@ -179,7 +179,8 @@ function dice(_max)
     else if (num < _max)            index = 3;
     else                            index = 4;
 
-    const msg = num + " が出ました。" + text[index]; 
+    const msg = num + " が出ました。" + text[index];
+    set_mode(0)
     return msg;
 }
 
@@ -261,7 +262,6 @@ asr.onresult = function(event) {
 
         if (typeof answer == 'undefined') {
 	        answer = "すみません、よくわかりません。";
-            set_mode(0);
     	}
 
         let queryURL = URL + APIID + "&intext=" + transcript;
