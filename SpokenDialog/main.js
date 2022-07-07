@@ -200,7 +200,7 @@ function toInt(text)
             }
         }
         else if (num != null) {
-            nums.push(num);
+            nums = nums.push(num);
             num = null;
         }
     });
@@ -239,7 +239,8 @@ asr.onresult = function(event) {
                         answer += useFunc(resp[1], resp[2]);
                     }
                     else {
-                        const num = toInt(transcript)[toInt(transcript).length-1];
+                        const nums = toInt(transcript);
+                        const num = nums[nums.length-1];
                         answer += useFunc(resp[1], num);
                     }
                 }
