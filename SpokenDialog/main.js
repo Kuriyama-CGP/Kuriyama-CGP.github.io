@@ -205,6 +205,9 @@ function toInt(text)
             num = null;
         }
     }
+    if (num != null) {
+        nums.push(num);
+    }
 
     return nums;
 }
