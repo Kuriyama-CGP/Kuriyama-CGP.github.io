@@ -57,18 +57,18 @@ function init()
             "何時": ["", "resp_Time()"],
             "何分": ["", "resp_Time()"],
             "曜日": ["", "resp_Day()"],
-            "じゃんけん": ["じゃんけんモードに移行。じゃんけん…", "set_mode(1)"],
-            "ダイス": ["ダイスモードに移行。ダイスの面の数を指定してください。", "set_mode(2)"]
+            "じゃんけん": ["じゃんけんモードに移行。じゃんけん…", "set_mode", 1],
+            "ダイス": ["ダイスモードに移行。ダイスの面の数を指定してください。", "set_mode", 2]
         },
         {
-            "Goo": ["", "rock_papers_scissors(0)"],
-            "goo": ["", "rock_papers_scissors(0)"],
-            "グー": ["", "rock_papers_scissors(0)"],
-            "チョキ": ["", "rock_papers_scissors(1)"],
-            "パー": ["", "rock_papers_scissors(2)"]
+            "Goo": ["", "rock_papers_scissors", 0],
+            "goo": ["", "rock_papers_scissors", 0],
+            "グー": ["", "rock_papers_scissors", 0],
+            "チョキ": ["", "rock_papers_scissors", 1],
+            "パー": ["", "rock_papers_scissors", 2]
         },
         {
-            "[0-9]+" :["", "dice(key)"]
+            "[0-9]+" :["", "dice"]
         }
     ];
 
@@ -151,6 +151,7 @@ function rock_papers_scissors(hand0)
     return msg;
 }
 
+// ダイス
 function dice(_key)
 {
     const max = parseInt(_key);
@@ -179,9 +180,8 @@ function dice(_key)
 }
 
 // 文字列を関数として実行
-function useFunc(f, _key) {
-    const key = _key;
-    return Function('"use strict";return('+ f +')')();
+function useFunc(f, n) {
+    return Function('"use strict";return('+ f + '(' + n + '))')();
 }
 
 // 認識結果が出力されたときのイベントハンドラ
@@ -207,10 +207,16 @@ asr.onresult = function(event){
             });
 
             if (flag) {
-		        answer = response[resp_index][key][0];
+                let resp = response[resp_index][key];
+		        answer = resp[0];
 
-                if (typeof response[resp_index][key][1] != 'undefined') {
-                    answer += useFunc(response[resp_index][key][1], key);
+                if (typeof resp[1] != 'undefined') {
+                    if (typeof resp[2] != 'undefined') {
+                        answer += useFunc(resp[1], resp[2]);
+                    }
+                    else {
+                        answer += useFunc(resp[1], parseInt(key));
+                    }
                 }
 
                 console.log(key + " : " + answer);
@@ -232,7 +238,7 @@ asr.onresult = function(event){
 
 	    speechSynthesis.speak(tts); // 再生
     } else { // 結果がまだ未確定のとき
-        output_not_final = '<span style="color:#dddddd;">' + transcript + '</span>';
+        output_not_final = '<span style="color:#d0d0d0;">' + transcript + '</span>';
     }
     resultOutput.innerHTML = output + output_not_final;
 }
