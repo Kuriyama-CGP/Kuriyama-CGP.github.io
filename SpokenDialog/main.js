@@ -69,9 +69,11 @@ function init()
             "はい": ["", "retry_or_continue", true],
             "いいえ": ["", "retry_or_continue", false],
             "うん": ["", "retry_or_continue", true],
-            "いや": ["", "retry_or_continue", false],
             "もう1回": ["", "retry_or_continue", true],
+            "もう1度": ["", "retry_or_continue", true],
+            "いや": ["", "retry_or_continue", false],
             "やめ": ["", "retry_or_continue", false],
+            "遠慮": ["", "retry_or_continue", false],
         },
         {
             "Goo": ["", "rock_papers_scissors", 0],
