@@ -261,7 +261,7 @@ asr.onresult = function(event) {
 
         if (typeof answer == 'undefined') {
 	        answer = "すみません、よくわかりません。";
-            resp_index = 0;
+            set_mode(0);
     	}
 
         let queryURL = URL + APIID + "&intext=" + transcript;
