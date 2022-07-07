@@ -140,7 +140,7 @@ function set_mode(i)
     ];
 
     resp_index = i;
-    isActive.innerHTML = 'モード：' + text[i];
+    modeText.innerHTML = 'モード：' + text[i];
     return "";
 }
 
