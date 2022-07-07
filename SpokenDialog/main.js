@@ -68,6 +68,8 @@ function init()
         {
             "はい": ["", "retry_or_continue", true],
             "いいえ": ["", "retry_or_continue", false],
+            "もう一回": ["", "retry_or_continue", true],
+            "やめ": ["", "retry_or_continue", false],
         },
         {
             "Goo": ["", "rock_papers_scissors", 0],
