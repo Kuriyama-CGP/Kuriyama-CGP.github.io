@@ -6,6 +6,7 @@ const startButton = document.querySelector('#startButton'); // 開始ボタン
 const stopButton = document.querySelector('#stopButton'); // 停止ボタン
 const resultOutput = document.querySelector('#resultOutput'); // 結果出力エリア
 const isActive = document.querySelector('#isActive'); // 音声認識のオンオフ
+const modeText = document.querySelector('#modeText'); // 現在のモードを示すテキスト
 
 if (!'SpeechSynthesisUtterance' in window) {
     alert("あなたのブラウザはSpeech Synthesis APIに未対応です。");
@@ -132,7 +133,14 @@ function resp_Day()
 // モード移行 (0:デフォルト, 1:じゃんけん, 2:ダイス)
 function set_mode(i)
 {
+    text = [
+        "デフォルト",
+        "じゃんけん",
+        "ダイス"
+    ];
+
     resp_index = i;
+    isActive.innerHTML = 'モード：' + text[i];
     return "";
 }
 
