@@ -186,11 +186,12 @@ function useFunc(f, n)
 // 文字列から半角数字だけを取り出す
 function toInt(text)
 {
+    let list = text.split('');
     let num = null;
     let nums = [];
 
-    text.split('').forEach(function(c) {
-        const n = parseInt(c);
+    for (i = 0; i < list.length; i++) {
+        const n = parseInt(list[i]);
         if (!isNaN(n)) {
             if (num == null) {
                 num = n;
@@ -200,10 +201,10 @@ function toInt(text)
             }
         }
         else if (num != null) {
-            nums = nums.push(num);
+            nums.push(num);
             num = null;
         }
-    });
+    }
 
     return nums;
 }
