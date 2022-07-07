@@ -152,23 +152,21 @@ function rock_papers_scissors(hand0)
 }
 
 // ダイス
-function dice(_key)
+function dice(_max)
 {
-    const max = parseInt(_key);
-    if (isNaN(max)) return "";
-    const num = Math.floor(Math.random() * max + 1);
+    const num = Math.floor(Math.random() * _max + 1);
 
     let text;
     if (num == 1) {
         text = "逆に考えてください。今日のあなたはとても幸運です。";
     }
-    else if (num == max) {
+    else if (num == _max) {
         text = "おめでとうございます。以上です。";
     }
-    else if (num < (max / 4)) {
+    else if (num < (_max / 4)) {
         text = "小さいほうが良いこともありますよ。";
     }
-    else if (num < (max * 3 / 4)) {
+    else if (num < (_max * 3 / 4)) {
         text = "普通ですね。あなたの人生みたいなものです。";
     }
     else {
@@ -180,12 +178,38 @@ function dice(_key)
 }
 
 // 文字列を関数として実行
-function useFunc(f, n) {
+function useFunc(f, n)
+{
     return Function('"use strict";return('+ f + '(' + n + '))')();
 }
 
+// 文字列から半角数字だけを取り出す
+function toInt(text)
+{
+    let num = null;
+    let nums = [];
+
+    text.split('').forEach(function(c) {
+        const n = parseInt(c);
+        if (!isNaN(n)) {
+            if (num == null) {
+                num = n;
+            }
+            else {
+                num = num * 10 + n;
+            }
+        }
+        else if (num != null) {
+            nums.push(num);
+            num = null;
+        }
+    });
+
+    return nums;
+}
+
 // 認識結果が出力されたときのイベントハンドラ
-asr.onresult = function(event){
+asr.onresult = function(event) {
     let transcript = event.results[event.resultIndex][0].transcript; // 結果文字列
 
     let output_not_final = '';
@@ -215,7 +239,8 @@ asr.onresult = function(event){
                         answer += useFunc(resp[1], resp[2]);
                     }
                     else {
-                        answer += useFunc(resp[1], parseInt(key));
+                        const num = toInt(transcript)[toInt(transcript).length-1];
+                        answer += useFunc(resp[1], num);
                     }
                 }
 
