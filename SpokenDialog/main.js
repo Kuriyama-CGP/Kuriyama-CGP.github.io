@@ -175,8 +175,8 @@ function rock_papers_scissors(hand0)
         "私の勝ち。",
         "あなたの勝ち。"
     ];
-    if (flag != 0) set_mode(1);
-    const msg = "私は" + handText[hand1] + "を出しました。" + text[flag] + set_mode(1);
+    let msg = "私は" + handText[hand1] + "を出しました。" + text[flag];
+    if (flag != 0) msg += set_mode(1);
     return msg;
 }
 
