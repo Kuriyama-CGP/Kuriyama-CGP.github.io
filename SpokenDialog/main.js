@@ -32,6 +32,7 @@ asr.continuous = true; // 継続入力をオン
 // 変数
 let response;
 let resp_index;
+let prev_index;
 let output;
 
 // サイトが読み込まれたときにここが実行される
@@ -61,8 +62,12 @@ function init()
             "何時": ["", "resp_Time", ""],
             "何分": ["", "resp_Time", ""],
             "曜日": ["", "resp_Day", ""],
-            "じゃんけん": ["じゃんけんモードに移行。じゃんけん…", "set_mode", 1],
-            "ダイス": ["ダイスモードに移行。ダイスの面の数を指定してください。", "set_mode", 2]
+            "じゃんけん": ["", "set_mode", 2],
+            "ダイス": ["", "set_mode", 3]
+        },
+        {
+            "はい": ["", "retry_or_continue", true],
+            "いいえ": ["", "retry_or_continue", false],
         },
         {
             "Goo": ["", "rock_papers_scissors", 0],
@@ -130,18 +135,33 @@ function resp_Day()
     return msg;
 }
 
-// モード移行 (0:デフォルト, 1:じゃんけん, 2:ダイス)
+// モード移行
 function set_mode(i)
 {
-    text = [
+    mode_text = [
         "デフォルト",
+        "もう一回？",
         "じゃんけん",
         "ダイス"
     ];
+    text = [
+        "デフォルトモードに戻ります。",
+        "もう一回しますか？",
+        "じゃんけんモードに移行。じゃんけん…",
+        "ダイスモードに移行。ダイスの面の数を指定してください。"
+    ];
 
+    prev_index = resp_index;
     resp_index = i;
-    modeText.innerHTML = 'モード：' + text[i];
-    return "";
+    modeText.innerHTML = 'モード：' + mode_text[i];
+    return text[i];
+}
+
+// はい／いいえ　(true/false)
+function retry_or_continue(_flag)
+{
+    if (_flag) return set_mode(prev_index);
+    return set_mode(0); 
 }
 
 // じゃんけん (0:グー, 1:チョキ, 2:パー)
@@ -152,11 +172,11 @@ function rock_papers_scissors(hand0)
     const handText = ["グー", "チョキ", "パー"];
     const text = [
         "あいこなのでもう一回。じゃんけん…",
-        "私の勝ち。まだまだですね。",
-        "あなたの勝ち。中々やりますね。"
+        "私の勝ち。",
+        "あなたの勝ち。"
     ];
-    if (flag != 0) set_mode(0);
-    const msg = "私は" + handText[hand1] + "を出しました。" + text[flag];
+    if (flag != 0) set_mode(1);
+    const msg = "私は" + handText[hand1] + "を出しました。" + text[flag] + set_mode(1);
     return msg;
 }
 
@@ -165,10 +185,10 @@ function dice(_max)
 {
     const num = Math.floor(Math.random() * _max + 1);
     const text = [
-        "逆に考えてください。今日のあなたはとても幸運です。",
+        "逆に考えてください。あなたは今とても幸運です。",
         "小さいほうが良いこともありますよ。",
-        "普通ですね。あなたの人生みたいなものです。",
-        "大は小を兼ねない場合もあることをお忘れなく。",
+        "普通ですね。まあいいでしょう。",
+        "まあ、大きければ良いとも限りませんし。",
         "おめでとうございます。以上です。"
     ];
 
@@ -179,8 +199,7 @@ function dice(_max)
     else if (num < _max)            index = 3;
     else                            index = 4;
 
-    const msg = num + " が出ました。" + text[index];
-    set_mode(0)
+    const msg = num + " が出ました。" + text[index] + set_mode(1);
     return msg;
 }
 
