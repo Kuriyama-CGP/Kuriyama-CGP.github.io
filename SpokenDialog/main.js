@@ -166,17 +166,17 @@ function dice(_max)
     const num = Math.floor(Math.random() * _max + 1);
     const text = [
         "逆に考えてください。今日のあなたはとても幸運です。",
-        "おめでとうございます。以上です。",
         "小さいほうが良いこともありますよ。",
         "普通ですね。あなたの人生みたいなものです。",
-        "大は小を兼ねない場合もあることをお忘れなく。"
+        "大は小を兼ねない場合もあることをお忘れなく。",
+        "おめでとうございます。以上です。"
     ];
 
     let index;
     if (num == 1)                   index = 0;
     else if (num < (_max / 4))      index = 1;
     else if (num < (_max * 3 / 4))  index = 2;
-    else if (num < (_max * 3 / 4))  index = 3;
+    else if (num < _max)            index = 3;
     else                            index = 4;
 
     const msg = num + " が出ました。" + text[index]; 
