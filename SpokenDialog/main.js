@@ -1,4 +1,7 @@
 
+const URL = "https://jlp.yahooapis.jp/NLUService/V1/analyze?appid="; // APIのリクエストURL
+const APIID = "dj00aiZpPTFvMWZrRmo1ZGtjeCZzPWNvbnN1bWVyc2VjcmV0Jng9YjA-"; // あなたのアプリケーションID
+
 const startButton = document.querySelector('#startButton'); // 開始ボタン
 const stopButton = document.querySelector('#stopButton'); // 停止ボタン
 const resultOutput = document.querySelector('#resultOutput'); // 結果出力エリア
@@ -68,7 +71,7 @@ function init()
             "パー": ["", "rock_papers_scissors", 2]
         },
         {
-            "[0-9]+" :["", "dice"]
+            "[0-9]+" :["", "dice", "num"]
         }
     ];
 
@@ -86,6 +89,13 @@ function main()
 function update()
 {
     
+}
+
+// 自己紹介
+function introduce()
+{
+    text = "私は遊びに特化した音声対話プログラムです。じゃんけんやダイスが得意です。よろしくです。";
+    return text;
 }
 
 // 日付の返答を返す
@@ -126,36 +136,19 @@ function set_mode(i)
     return "";
 }
 
-// 自己紹介
-function introduce()
-{
-    text = "私は遊びに特化した音声対話プログラムです。じゃんけんをしたり、ダイスを振ることができます。<br>\
-        「じゃんけん」「ダイス」などと話しかけてみてください。";
-    return text;
-}
-
 // じゃんけん (0:グー, 1:チョキ, 2:パー)
 function rock_papers_scissors(hand0)
 {
-        const hand1 = Math.floor(Math.random() * 3);
-        const flag = (hand0 - hand1 + 3) % 3;
-        const handText = ["グー", "チョキ", "パー"];
-        let text;
-        switch (flag) {
-            case 0:
-                text = "あいこなのでもう一回。じゃんけん…";
-                resp_index = 1;
-                break;
-            case 1:
-                text = "私の勝ち。まだまだですね。";
-                resp_index = 0;
-                break;
-            case 2:
-                text = "あなたの勝ち。中々やりますね。";
-                resp_index = 0;
-                break;
-        }
-        const msg = "私は" + handText[hand1] + "を出しました。" + text;
+    const hand1 = Math.floor(Math.random() * 3);
+    const flag = (hand0 - hand1 + 3) % 3;
+    const handText = ["グー", "チョキ", "パー"];
+    const text = [
+        "あいこなのでもう一回。じゃんけん…",
+        "私の勝ち。まだまだですね。",
+        "あなたの勝ち。中々やりますね。"
+    ];
+    if (flag != 0) resp_index = 0;
+    const msg = "私は" + handText[hand1] + "を出しました。" + text[flag];
     return msg;
 }
 
@@ -163,25 +156,22 @@ function rock_papers_scissors(hand0)
 function dice(_max)
 {
     const num = Math.floor(Math.random() * _max + 1);
+    const text = [
+        "逆に考えてください。今日のあなたはとても幸運です。",
+        "おめでとうございます。以上です。",
+        "小さいほうが良いこともありますよ。",
+        "普通ですね。あなたの人生みたいなものです。",
+        "大は小を兼ねない場合もあることをお忘れなく。"
+    ];
 
-    let text;
-    if (num == 1) {
-        text = "逆に考えてください。今日のあなたはとても幸運です。";
-    }
-    else if (num == _max) {
-        text = "おめでとうございます。以上です。";
-    }
-    else if (num < (_max / 4)) {
-        text = "小さいほうが良いこともありますよ。";
-    }
-    else if (num < (_max * 3 / 4)) {
-        text = "普通ですね。あなたの人生みたいなものです。";
-    }
-    else {
-        text = "大は小を兼ねない場合もあることをお忘れなく。";
-    }
+    let index;
+    if (num == 1)                   index = 0;
+    else if (num < (_max / 4))      index = 1;
+    else if (num < (_max * 3 / 4))  index = 2;
+    else if (num < (_max * 3 / 4))  index = 3;
+    else                            index = 4;
 
-    const msg = num + " が出ました。" + text; 
+    const msg = num + " が出ました。" + text[index]; 
     return msg;
 }
 
@@ -247,13 +237,13 @@ asr.onresult = function(event) {
 		        answer = resp[0];
 
                 if (typeof resp[1] != 'undefined') {
-                    if (typeof resp[2] != 'undefined') {
-                        answer += useFunc(resp[1], resp[2]);
-                    }
-                    else {
+                    if (resp[2] == "num") {
                         const nums = toInt(transcript);
                         const num = nums[nums.length-1];
                         answer += useFunc(resp[1], num);
+                    }
+                    else {
+                        answer += useFunc(resp[1], resp[2]);
                     }
                 }
 
@@ -265,6 +255,28 @@ asr.onresult = function(event) {
 	        answer = "すみません、よくわかりません。";
             resp_index = 0;
     	}
+
+        let queryURL = URL + APIID + "&intext=" + transcript;
+		console.log(queryURL);
+		
+		// HTTPリクエストの準備
+		const request = new XMLHttpRequest();
+		request.open('GET', queryURL, true);
+		request.responseType = 'json'; // レスポンスはJSON形式に変換
+	
+		// HTTPの状態が変化したときのイベントハンドラ
+		request.onreadystatechange = function() {
+            // readyState == 4 操作完了
+            // status == 200 リクエスト成功（HTTPレスポンス）
+    		if (this.readyState == 4 && this.status == 200) {
+				let res = this.response; // 結果はJSON形式
+				Object.keys(res.result).forEach(function(key) {
+					console.log(key + ": " + res.result[key])
+				});
+			}
+		}
+        // HTTPリクエストの実行
+		request.send();
 
         output += transcript + ' => ' + answer + '<br>';
 
