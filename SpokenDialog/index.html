@@ -10,21 +10,25 @@
 </head>
 <body>
 
-<h1>課題：音声対話</h1>
-<div id = "isActive"><span style="color:#000000">音声認識：オフ</span></div>
-<div id = "modeText">モード：デフォルト</div>
 
-<div>
-<button id="startButton">start</button>
-<button id="stopButton">stop</button>
+<div id="header">
+    <h1>ゆうか</h1>
+    <h2>遊び機能に特化した音声対話システム</h2>
+</div>
+
+<div id="leftMenu">
+    <div id="textArea">
+        <div id="isActive"><span style="color:#000000">音声認識：オフ</span></div>
+        <div id="modeText">現在のモード：デフォルト</div>
+    </div>
+    <div id="buttonArea">
+        <button id="toggleButton"><span style="color:#1f7f1f">音声認識を開始</span></button>
+    </div>
 </div>
 
 <div id="resultOutput">
-    <span style="color:#7fbfff;">まずは挨拶をしてみましょう。<br></span>
+    <span style="color:#7fbfff;">* まずは挨拶をしてみましょう。<br></span>
 </div>
-
-<!-- Yahoo!JAPANのAPIを利用したときはクレジット表記が必要 -->
-<p>Web Services by Yahoo! JAPAN （https://developer.yahoo.co.jp/about）</p>
 
 <script src="main.js"></script>
 

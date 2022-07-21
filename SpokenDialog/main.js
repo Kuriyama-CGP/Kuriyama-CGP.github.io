@@ -1,9 +1,5 @@
 
-const URL = "https://jlp.yahooapis.jp/NLUService/V1/analyze?appid="; // APIのリクエストURL
-const APIID = "dj00aiZpPTFvMWZrRmo1ZGtjeCZzPWNvbnN1bWVyc2VjcmV0Jng9YjA-"; // あなたのアプリケーションID
-
-const startButton = document.querySelector('#startButton'); // 開始ボタン
-const stopButton = document.querySelector('#stopButton'); // 停止ボタン
+const toggleButton = document.querySelector('#toggleButton'); // 開始／停止ボタン
 const resultOutput = document.querySelector('#resultOutput'); // 結果出力エリア
 const isActive = document.querySelector('#isActive'); // 音声認識のオンオフ
 const modeText = document.querySelector('#modeText'); // 現在のモードを示すテキスト
@@ -34,6 +30,7 @@ let response;
 let resp_index;
 let prev_index;
 let output;
+let active;
 
 // サイトが読み込まれたときにここが実行される
 window.onload = function()
@@ -48,7 +45,7 @@ function init()
     response = [
         {
             "あなた,誰": ["", "introduce", ""],
-            "名前": ["私の名前はまだありません。"],
+            "名前": ["ゆうかと言います。"],
             "何歳": ["私はまだ生まれたばかりの0歳です。"],
             "こんにちは": ["こんにちは。", "introduce", ""],
             "こんばんは": ["こんばんは。", "introduce", ""],
@@ -92,6 +89,8 @@ function init()
 
     resp_index = 0;
     output = ''; // 出力
+
+    active = false;
 }
 
 // メインループ
@@ -109,7 +108,7 @@ function update()
 // 自己紹介
 function introduce()
 {
-    text = "私は遊びに特化した音声対話プログラムです。じゃんけんやダイスが得意です。";
+    text = "私の名前はゆうかです。じゃんけんやダイスなどで人を楽しませるのが得意です。";
     return text;
 }
 
@@ -162,7 +161,7 @@ function set_mode(i)
 
     prev_index = resp_index;
     resp_index = i;
-    modeText.innerHTML = 'モード：' + mode_text[i];
+    modeText.innerHTML = '現在のモード：' + mode_text[i];
     return text[i];
 }
 
@@ -292,28 +291,6 @@ asr.onresult = function(event) {
 	        answer = "すみません、よくわかりません。";
     	}
 
-        let queryURL = URL + APIID + "&intext=" + transcript;
-		console.log(queryURL);
-		
-		// HTTPリクエストの準備
-		const request = new XMLHttpRequest();
-		request.open('GET', queryURL, true);
-		request.responseType = 'json'; // レスポンスはJSON形式に変換
-	
-		// HTTPの状態が変化したときのイベントハンドラ
-		request.onreadystatechange = function() {
-            // readyState == 4 操作完了
-            // status == 200 リクエスト成功（HTTPレスポンス）
-    		if (this.readyState == 4 && this.status == 200) {
-				let res = this.response; // 結果はJSON形式
-				Object.keys(res.result).forEach(function(key) {
-					console.log(key + ": " + res.result[key])
-				});
-			}
-		}
-        // HTTPリクエストの実行
-		request.send();
-
         output += transcript + ' => ' + answer + '<br>';
 
 	    tts.text = answer;
@@ -330,14 +307,18 @@ asr.onresult = function(event) {
 }
 
 // 開始ボタンのイベントハンドラ
-startButton.addEventListener('click', function() {
-    asr.start();
-    isActive.innerHTML = '<span style="color:#007fff">音声認識：オン</span>';
-});
+toggleButton.addEventListener('click', function() {
+    active = !active;
 
-// 停止ボタンのイベントハンドラ
-stopButton.addEventListener('click', function() {
-    asr.abort();
-    asr.stop();
-    isActive.innerHTML = '<span style="color:#000000">音声認識：オフ</span>';
+    if (active) {
+        asr.start();
+        isActive.innerHTML = '<span style="color:#007fff">音声認識：オン</span>';
+        toggleButton.innerHTML = '<span style="color:#ff3f3f">音声認識を停止</span>';
+    }
+    else {
+        asr.abort();
+        asr.stop();
+        isActive.innerHTML = '<span style="color:#000000">音声認識：オフ</span>';
+        toggleButton.innerHTML = '<span style="color:#1f7f1f">音声認識を開始</span>';
+    }
 });
