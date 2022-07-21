@@ -22,8 +22,7 @@
     position: absolute;
     float: left;
     width: 25%;
-    top: 0;
-    bottom: 0;
+    height: 100%;
     padding: 0.5em;
     background-color: #cfbfdf;
 }
