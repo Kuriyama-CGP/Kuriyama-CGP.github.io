@@ -1,39 +1,66 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Akito KURIYAMA</title>
-    <meta name="description" content="栗山明人のポートフォリオサイトです。">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PORTFOLIO</title>
+    <meta name="description" content="栗山明人のポートフォリオサイトです。"/>
+    <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
-    <div class="wrapper-body">
+    <div class="wrapper">
       <header>
-        <div class="title-container">
-          <h1 class="title">PORTFOLIO</h1>
-          <p class="subtitle">by Akito KURIYAMA</p>
+        <div class="container">
+          <div class="title-box">
+            <h1 class="title main-title">PORTFOLIO</h1>
+            <p class="title sub-title">by Akito KURIYAMA</p>
+          </div>
         </div>
-        <nav class="header-nav">
+      </header>
+      <div class="container">
+        <nav class="head-nav">
           <ul>
             <li><a href="#about">ABOUT</a></li>
             <li><a href="#works">WORKS</a></li>
             <li><a href="#contact">CONTACT</a></li>
           </ul>
         </nav>
-      </header>
+      </div>
       <main>
-        <section>
-          <h2 class="section-title" id="about">ABOUT</h2>
-        </section>
-        <section>
-          <h2 class="section-title" id="works">WORKS</h2>
-        </section>
-        <section>
-          <h2 class="section-title" id="contact">CONTACT</h2>
-        </section>
+        <div class="container section" id="about">
+          <h2 class="title section-title">ABOUT</h2>
+          <div class="about-box">
+            <img class="rounded" src="images/about_icon.jpg" width="200" height="200" alt="アイコン"/>
+            <div class="about-text">
+              <div class="about-text-left">
+                <p>名前</p>
+                <p>所属</p>
+                <p>趣味</p>
+              </div>
+              <div class="about-text-right">
+                <p>栗山 明人（クリヤマ アキト）</p>
+                <p>和歌山大学 システム工学部</p>
+                <p>作曲、CG制作、甘い物を食べること、etc…</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container section" id="works">
+          <h2 class="title section-title">WORKS</h2>
+        </div>
+        <div class="container section" id="contact">
+          <h2 class="title section-title">CONTACT</h2>
+        </div>
       </main>
       <footer>
+        <nav class="foot-nav">
+          <ul>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#works">WORKS</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+          </ul>
+        </nav>
         <p class="copyright">© 2023 Akito KURIYAMA</p>
       </footer>
     </div>
