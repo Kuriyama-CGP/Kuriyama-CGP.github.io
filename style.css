@@ -4,7 +4,7 @@
   padding: 0;
   font-size: 100%;
   box-sizing: border-box;
-  font-family: 'Segoe UI', 'Meiryo', 'Hiragino Sans', sans-serif;
+  font-family: 'Roboto', 'Noto Sans JP', sans-serif;
 }
 
 li {
@@ -78,8 +78,7 @@ footer {
 }
 
 .title {
-  font-family: 'Arial Black', sans-serif;
-  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .main-title {
@@ -145,7 +144,13 @@ footer {
   border-spacing: 2rem 1rem;
 }
 
-.about-table th, .about-table td {
+.about-table th {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.about-table td {
+  font-weight: normal;
   font-size: 1rem;
 }
 
